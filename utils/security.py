@@ -1,3 +1,4 @@
+import os
 from datetime import datetime, timedelta, timezone
 
 from jose import JWTError, jwt
@@ -5,7 +6,11 @@ from passlib.context import CryptContext
 
 
 # JWT Configuration
-SECRET_KEY = "change-this-secret-key-before-deployment"
+SECRET_KEY = os.getenv(
+    "SECRET_KEY",
+    "development-only-secret-key-do-not-use-in-production"
+)
+
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
@@ -65,5 +70,3 @@ def verify_access_token(token: str):
 
     except JWTError:
         return None
-    
-    
